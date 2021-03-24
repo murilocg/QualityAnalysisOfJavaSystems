@@ -2,7 +2,7 @@ import requests
 import json
 
 queryFormat = """{
-  search(type: REPOSITORY, first: $first, query: "language:Java and stars:>100 and is:public", after: $after) {
+  search(type: REPOSITORY, first: $first, query: "language:Java,stars:>100,is:public", after: $after) {
     pageInfo {
       hasNextPage
       endCursor
