@@ -4,3 +4,5 @@ output_repositories_github.csv
 ck
 report.csv
 .vscode
+class.csv
+method.csv
