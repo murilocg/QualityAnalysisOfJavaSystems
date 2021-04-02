@@ -2,6 +2,7 @@ from query import Query
 import pandas as pd
 from datetime import datetime
 import os.path
+import state_manager
 
 def getMaturidade(dateStr):
     createdAt = datetime.strptime(dateStr, "%Y-%m-%dT%H:%M:%SZ")
@@ -26,20 +27,15 @@ def extract_raw_data(query):
             df.to_csv('raw_data/' + str(query.num_pages()) + '.csv', index=False)
         except:
             print('Error searching on Github GraphQL')
-            return False
-    return True
+            break
 
-def start(state, pageSize, limit, token):
-    query = Query(pageSize, limit, token)
-    
-    if (any(state)):
-        query.after = state['after']
-        query.total = int(state['total'])
+def start(pageSize, limit, token):
+    after, total = state_manager.load_raw_data_state()
+    query = Query(pageSize, limit, token, after, total)
     
     if query.hasNext():
         print("Step: Extract Raw Data")
         extract_raw_data(query)
-        state = {"after": query.after, "total": str(query.total)}
+        state_manager.save_raw_data_state(query.after, query.total)
     else:
         print("Skipping Step: Extract Raw Data")
-    return state

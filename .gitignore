@@ -2,7 +2,8 @@ repositories
 *.pyc
 output_repositories_github.csv
 ck
-report.csv
 .vscode
 class.csv
 method.csv
+process_data
+raw_data
